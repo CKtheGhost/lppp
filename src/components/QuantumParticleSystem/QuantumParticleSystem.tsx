@@ -3,318 +3,222 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './QuantumParticleSystem.module.css';
 
-interface Particle {
-  x: number;
-  y: number;
-  size: number;
-  speedX: number;
-  speedY: number;
-  opacity: number;
-  hue: number;
-  connected: boolean;
-}
-
 interface QuantumParticleSystemProps {
   particleCount?: number;
-  maxConnections?: number;
   connectionDistance?: number;
-  particleSpeed?: number;
   particleColor?: string;
-  reduceMotion?: boolean;
 }
 
 const QuantumParticleSystem = ({
   particleCount = 50,
-  maxConnections = 3,
   connectionDistance = 150,
-  particleSpeed = 0.5,
-  particleColor = '#00ff00',
-  reduceMotion = false,
+  particleColor = '#00ff66',
 }: QuantumParticleSystemProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const contextRef = useRef<CanvasRenderingContext2D | null>(null);
+  const particlesRef = useRef<any[]>([]);
+  const mouseRef = useRef({ x: 0, y: 0, active: false });
+  const rafRef = useRef<number>();
   const [isActive, setIsActive] = useState(false);
-  const animationFrameId = useRef<number>();
-  const prefersReducedMotion = useRef(reduceMotion);
-  
-  // Check for user preference regarding reduced motion
+
+  // Setup canvas and particles
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    prefersReducedMotion.current = mediaQuery.matches || reduceMotion;
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      prefersReducedMotion.current = e.matches;
-      
-      // If reduced motion is preferred, reduce particle count and stop animation
-      if (e.matches) {
-        setParticles(currentParticles => currentParticles.slice(0, Math.min(20, currentParticles.length)));
-      }
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [reduceMotion]);
-  
-  // Initialize particles
-  useEffect(() => {
-    if (!canvasRef.current) return;
-    
     const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    
-    setDimensions({ width, height });
-    
-    // Create particles based on preference
-    const count = prefersReducedMotion.current ? Math.min(20, particleCount) : particleCount;
-    const initialParticles: Particle[] = [];
-    
-    for (let i = 0; i < count; i++) {
-      initialParticles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 3 + 1,
-        speedX: (Math.random() - 0.5) * particleSpeed,
-        speedY: (Math.random() - 0.5) * particleSpeed,
-        opacity: 0.1 + Math.random() * 0.3,
-        hue: Math.random() * 30 - 15, // Slight hue variation
-        connected: false,
-      });
-    }
-    
-    setParticles(initialParticles);
-    
-    // Add animation delay for initial render
-    setTimeout(() => {
-      setIsActive(true);
-    }, 500);
-    
+    if (!canvas) return;
+
+    // Get context
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    contextRef.current = context;
+
     // Handle resize
     const handleResize = () => {
-      if (!canvasRef.current) return;
+      const { width, height } = canvas.getBoundingClientRect();
       
-      const rect = canvasRef.current.getBoundingClientRect();
-      const newWidth = rect.width;
-      const newHeight = rect.height;
+      // Set canvas size with high DPI support
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      context.scale(dpr, dpr);
       
-      setDimensions({ width: newWidth, height: newHeight });
-      
-      // Adjust particle positions to stay within bounds
-      setParticles(currentParticles => 
-        currentParticles.map(particle => ({
-          ...particle,
-          x: (particle.x / dimensions.width) * newWidth,
-          y: (particle.y / dimensions.height) * newHeight
-        }))
-      );
+      // Regenerate particles when size changes
+      initParticles(width, height);
     };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [particleCount, particleSpeed]);
-  
-  // Mouse interaction
-  useEffect(() => {
+
+    // Init particles
+    const initParticles = (width: number, height: number) => {
+      particlesRef.current = Array.from({ length: particleCount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 2 + 1,
+        color: particleColor,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+        originalSpeed: Math.random() * 0.5 + 0.2
+      }));
+    };
+
+    // Set up mouse events
     const handleMouseMove = (e: MouseEvent) => {
-      if (!canvasRef.current) return;
-      
-      const rect = canvasRef.current.getBoundingClientRect();
-      setMousePos({
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = {
         x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      });
+        y: e.clientY - rect.top,
+        active: true
+      };
     };
+
+    const handleMouseLeave = () => {
+      mouseRef.current.active = false;
+    };
+
+    // Add event listeners
+    window.addEventListener('resize', handleResize);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
+
+    // Initialize
+    handleResize();
     
-    if (canvasRef.current) {
-      canvasRef.current.addEventListener('mousemove', handleMouseMove);
-    }
-    
+    // Start the animation after a delay
+    setTimeout(() => setIsActive(true), 500);
+
+    // Cleanup
     return () => {
-      if (canvasRef.current) {
-        canvasRef.current.removeEventListener('mousemove', handleMouseMove);
-      }
+      window.removeEventListener('resize', handleResize);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseleave', handleMouseLeave);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
-  
+  }, [particleCount, particleColor]); 
+
   // Animation loop
   useEffect(() => {
-    if (!canvasRef.current || !isActive) return;
+    if (!isActive) return;
     
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    // Adjust canvas resolution for HiDPI displays
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    canvas.width = dimensions.width * devicePixelRatio;
-    canvas.height = dimensions.height * devicePixelRatio;
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-    
-    // Animation loop
+    const context = contextRef.current;
+    if (!canvas || !context) return;
+
     const animate = () => {
-      ctx.clearRect(0, 0, dimensions.width, dimensions.height);
-      
-      // Skip animation if user prefers reduced motion
-      if (!prefersReducedMotion.current) {
-        // Update particles
-        setParticles(currentParticles => 
-          currentParticles.map(particle => {
-            // Calculate new position
-            let newX = particle.x + particle.speedX;
-            let newY = particle.y + particle.speedY;
-            
-            // Bounce off edges
-            if (newX < 0 || newX > dimensions.width) {
-              particle.speedX = -particle.speedX;
-              newX = particle.x + particle.speedX;
-            }
-            
-            if (newY < 0 || newY > dimensions.height) {
-              particle.speedY = -particle.speedY;
-              newY = particle.y + particle.speedY;
-            }
-            
-            // Reset connected status
-            particle.connected = false;
-            
-            return {
-              ...particle,
-              x: newX,
-              y: newY,
-            };
-          })
-        );
-      }
+      const { width, height } = canvas.getBoundingClientRect();
+      context.clearRect(0, 0, width, height);
       
       // Draw particles and connections
-      drawParticlesAndConnections(ctx);
+      drawParticles(context, width, height);
       
       // Continue animation
-      animationFrameId.current = requestAnimationFrame(animate);
+      rafRef.current = requestAnimationFrame(animate);
     };
-    
+
     animate();
     
     return () => {
-      if (animationFrameId.current) {
-        cancelAnimationFrame(animationFrameId.current);
-      }
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [dimensions, isActive]);
-  
+  }, [isActive, connectionDistance]);
+
   // Draw particles and connections
-  const drawParticlesAndConnections = (ctx: CanvasRenderingContext2D) => {
-    // Find connections between particles
-    const connections: [Particle, Particle, number][] = [];
+  const drawParticles = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const particles = particlesRef.current;
+    const mouse = mouseRef.current;
     
-    // Draw mouse interaction if mouse is over canvas
-    if (mousePos.x > 0 && mousePos.y > 0 && mousePos.x < dimensions.width && mousePos.y < dimensions.height) {
-      particles.forEach(particle => {
-        const distance = Math.sqrt(
-          Math.pow(mousePos.x - particle.x, 2) + 
-          Math.pow(mousePos.y - particle.y, 2)
-        );
-        
-        if (distance < connectionDistance * 1.5) {
-          // Draw connection to mouse
-          const opacity = 1 - (distance / (connectionDistance * 1.5));
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(0, 255, 0, ${opacity * 0.5})`;
-          ctx.lineWidth = 1;
-          ctx.moveTo(particle.x, particle.y);
-          ctx.lineTo(mousePos.x, mousePos.y);
-          ctx.stroke();
-          
-          // Apply force to particle (attracted to mouse)
-          if (!prefersReducedMotion.current) {
-            const force = 0.05;
-            const directionX = mousePos.x - particle.x;
-            const directionY = mousePos.y - particle.y;
-            const length = Math.sqrt(directionX * directionX + directionY * directionY);
-            
-            particle.speedX += (directionX / length) * force;
-            particle.speedY += (directionY / length) * force;
-            
-            // Limit speed
-            const maxSpeed = 2;
-            const currentSpeed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
-            if (currentSpeed > maxSpeed) {
-              particle.speedX = (particle.speedX / currentSpeed) * maxSpeed;
-              particle.speedY = (particle.speedY / currentSpeed) * maxSpeed;
-            }
-          }
-        }
-      });
-    }
-    
-    // Find connections between particles
-    for (let i = 0; i < particles.length; i++) {
-      const particleA = particles[i];
-      let connectionCount = 0;
-      
-      for (let j = i + 1; j < particles.length; j++) {
-        if (connectionCount >= maxConnections) break;
-        
-        const particleB = particles[j];
-        const distance = Math.sqrt(
-          Math.pow(particleA.x - particleB.x, 2) + 
-          Math.pow(particleA.y - particleB.y, 2)
-        );
+    // Update and draw particles
+    particles.forEach((p, i) => {
+      // Apply forces if mouse is active
+      if (mouse.active) {
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
         
         if (distance < connectionDistance) {
-          connections.push([particleA, particleB, distance]);
-          connectionCount++;
-          particleA.connected = true;
-          particleB.connected = true;
+          // Draw connection to mouse
+          const opacity = 1 - distance / connectionDistance;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${hexToRgb(particleColor)}, ${opacity * 0.5})`;
+          ctx.lineWidth = 1;
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+          
+          // Apply attraction force
+          const force = 0.2;
+          const angle = Math.atan2(dy, dx);
+          p.vx += Math.cos(angle) * force;
+          p.vy += Math.sin(angle) * force;
         }
       }
-    }
-    
-    // Draw connections first (so they appear behind particles)
-    connections.forEach(([particleA, particleB, distance]) => {
-      const opacity = 1 - (distance / connectionDistance);
+      
+      // Check connections with other particles
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p2.x - p.x;
+        const dy = p2.y - p.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < connectionDistance * 0.7) {
+          const opacity = 1 - distance / (connectionDistance * 0.7);
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${hexToRgb(particleColor)}, ${opacity * 0.2})`;
+          ctx.lineWidth = 0.6;
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+      
+      // Update position
+      p.x += p.vx;
+      p.y += p.vy;
+      
+      // Slow down particles (friction)
+      p.vx *= 0.98;
+      p.vy *= 0.98;
+      
+      // Normalize speed occasionally
+      if (Math.random() < 0.01) {
+        const currentSpeed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+        if (currentSpeed > 0) {
+          p.vx = (p.vx / currentSpeed) * p.originalSpeed;
+          p.vy = (p.vy / currentSpeed) * p.originalSpeed;
+        }
+      }
+      
+      // Bounce off walls
+      if (p.x < 0 || p.x > width) p.vx = -p.vx;
+      if (p.y < 0 || p.y > height) p.vy = -p.vy;
+      
+      // Keep within bounds
+      p.x = Math.max(0, Math.min(width, p.x));
+      p.y = Math.max(0, Math.min(height, p.y));
+      
+      // Draw particle
+      const glowRadius = p.radius * 3;
+      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowRadius);
+      gradient.addColorStop(0, `rgba(${hexToRgb(particleColor)}, 0.8)`);
+      gradient.addColorStop(1, `rgba(${hexToRgb(particleColor)}, 0)`);
+      
       ctx.beginPath();
-      ctx.strokeStyle = `rgba(0, 255, 0, ${opacity * 0.2})`;
-      ctx.lineWidth = 1;
-      ctx.moveTo(particleA.x, particleA.y);
-      ctx.lineTo(particleB.x, particleB.y);
-      ctx.stroke();
-    });
-    
-    // Draw particles
-    particles.forEach(particle => {
-      ctx.beginPath();
-      
-      // Create gradient for glow effect
-      const gradient = ctx.createRadialGradient(
-        particle.x, particle.y, 0,
-        particle.x, particle.y, particle.size * 2
-      );
-      
-      // Adjust color based on hue variation
-      const baseColor = particle.connected ? particleColor : '#FFFFFF';
-      const alpha = particle.connected ? particle.opacity * 1.5 : particle.opacity * 0.6;
-      
-      gradient.addColorStop(0, `rgba(0, 255, 0, ${alpha})`);
-      gradient.addColorStop(1, `rgba(0, 255, 0, 0)`);
-      
       ctx.fillStyle = gradient;
-      ctx.arc(particle.x, particle.y, particle.size * 2, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, glowRadius, 0, Math.PI * 2);
       ctx.fill();
       
-      // Core of the particle
+      // Core particle
       ctx.beginPath();
-      ctx.fillStyle = baseColor;
-      ctx.globalAlpha = particle.opacity;
-      ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+      ctx.fillStyle = particleColor;
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fill();
-      ctx.globalAlpha = 1;
     });
   };
   
+  // Helper function to convert hex to RGB
+  const hexToRgb = (hex: string) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result 
+      ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
+      : '0, 255, 102'; // Default to green
+  };
+
   return (
     <div className={`${styles.particleContainer} ${isActive ? styles.active : ''}`}>
       <canvas 

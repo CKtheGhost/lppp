@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useIntersectionAnimation } from '@/hooks/useIntersectionAnimation';
 import { useParallaxEffect } from '@/hooks/useParallaxEffect';
+import QuantumParticleSystem from '../QuantumParticleSystem/QuantumParticleSystem';
 import styles from './HeroSection.module.css';
 
 interface HeroSectionProps {
@@ -47,7 +48,7 @@ const HeroSection = ({ onJoinClick }: HeroSectionProps) => {
     // Set a slight delay for the initial animation
     const loadTimer = setTimeout(() => {
       setIsLoaded(true);
-    }, 500);
+    }, 800);
     
     // Add a delay for particle effects to start
     const particlesTimer = setTimeout(() => {
@@ -71,6 +72,13 @@ const HeroSection = ({ onJoinClick }: HeroSectionProps) => {
       className={`${styles.hero} ${styles.quantumVisualization} ${isLoaded ? styles.loaded : ''}`}
       aria-labelledby="hero-heading"
     >
+      <QuantumParticleSystem 
+        particleCount={40} 
+        particleColor="#00ff66" 
+        connectionDistance={180}
+        interactive={true}
+      />
+
       <div className={styles.container}>
         <div className={styles.heroContent} style={parallaxStyle}>
           <div className={`${styles.heroBadge} ${styles.pulseAnimation}`} aria-hidden="true">
@@ -157,7 +165,7 @@ const HeroSection = ({ onJoinClick }: HeroSectionProps) => {
       </div>
       
       <div className={styles.quantumParticles} aria-hidden="true">
-        {particles.map((particle, index) => (
+        {particlesActive && particles.map((particle, index) => (
           <div
             key={`particle-${index}`}
             className={`${styles.quantumParticle} ${particlesActive ? styles.active : ''}`}
@@ -178,8 +186,6 @@ const HeroSection = ({ onJoinClick }: HeroSectionProps) => {
         <div className={styles.glowOrb}></div>
         <div className={styles.gridLines}></div>
       </div>
-      
-      <div className={styles.quantumBgNoise} aria-hidden="true"></div>
     </section>
   );
 };

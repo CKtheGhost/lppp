@@ -22,7 +22,7 @@
   height: 100%;
   background: radial-gradient(circle at 50% 50%, var(--color-glow) 0%, transparent 70%);
   opacity: 0;
-  transition: opacity 1.5s var(--ease-out);
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 0;
   transform: translateZ(0); /* Force GPU acceleration */
 }
@@ -44,7 +44,7 @@
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
-  transition: transform 0.3s var(--ease-out);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
@@ -61,7 +61,8 @@
   font-weight: 500;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s var(--ease-quantum), transform 0.6s var(--ease-quantum);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .loaded .heroBadge {
@@ -76,7 +77,12 @@
 }
 
 .pulseAnimation {
-  animation: pulse 3s infinite;
+  animation: pulseBorder 3s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pulseBorder {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); }
 }
 
 .quantumTransition {
@@ -92,7 +98,8 @@
   z-index: 1;
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.8s var(--ease-quantum) 0.1s, transform 0.8s var(--ease-quantum) 0.1s;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
   font-family: var(--font-display);
 }
 
@@ -105,6 +112,12 @@
   color: var(--color-primary);
   position: relative;
   display: inline-block;
+  transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.highlight:hover {
+  color: var(--color-primary-light);
+  text-shadow: 0 0 10px var(--color-glow);
 }
 
 .highlight:after {
@@ -117,7 +130,7 @@
   background: var(--color-primary);
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 1.2s var(--ease-quantum) 0.7s;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s;
 }
 
 .loaded .highlight:after {
@@ -135,7 +148,8 @@
   margin-right: auto;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.8s var(--ease-quantum) 0.3s, transform 0.8s var(--ease-quantum) 0.3s;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
 }
 
 .loaded .heroSubtitle {
@@ -146,6 +160,13 @@
 .textHighlight {
   color: var(--color-primary);
   font-weight: 600;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.textHighlight:hover {
+  color: var(--color-primary-light);
+  text-shadow: 0 0 5px var(--color-glow);
 }
 
 .heroFeatures {
@@ -156,7 +177,8 @@
   margin-bottom: 48px;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.8s var(--ease-quantum) 0.5s, transform 0.8s var(--ease-quantum) 0.5s;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
 }
 
 .loaded .heroFeatures {
@@ -170,6 +192,17 @@
   gap: 8px;
   color: var(--color-text-secondary);
   font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heroFeature:hover {
+  color: var(--color-text-primary);
+  background: rgba(0, 255, 0, 0.05);
+  border-color: rgba(0, 255, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .featureIcon {
@@ -177,6 +210,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heroFeature:hover .featureIcon {
+  transform: scale(1.2);
 }
 
 .ctaGroup {
@@ -186,7 +224,8 @@
   margin-top: 32px;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.8s var(--ease-quantum) 0.7s, transform 0.8s var(--ease-quantum) 0.7s;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s, 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s;
 }
 
 .loaded .ctaGroup {
@@ -205,7 +244,7 @@
   border-radius: var(--radius-md);
   border: none;
   cursor: pointer;
-  transition: all 0.3s var(--ease-out);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
   z-index: 1;
   overflow: hidden;
@@ -245,7 +284,7 @@
 
 .btnQuantum:hover .btnGlow {
   left: 100%;
-  transition: left 0.7s var(--ease-out);
+  transition: left 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .secondaryButton {
@@ -260,14 +299,33 @@
   background: transparent;
   color: var(--color-text-primary);
   cursor: pointer;
-  transition: all 0.3s var(--ease-out);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.secondaryButton:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 255, 0, 0.05);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
 }
 
 .secondaryButton:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
   transform: translateY(-2px);
+}
+
+.secondaryButton:hover:before {
+  opacity: 1;
 }
 
 .secondaryButton:active {
@@ -291,7 +349,8 @@
   filter: blur(1px);
   opacity: 0;
   transform: scale(0);
-  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .quantumParticle.active {
@@ -312,16 +371,24 @@
 
 .glowOrb {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
   background: radial-gradient(circle, var(--color-glow) 0%, transparent 70%);
   top: 20%;
   left: 15%;
   opacity: 0;
-  transition: opacity 2s var(--ease-out) 0.5s;
-  filter: blur(50px);
+  transition: opacity 2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+  filter: blur(70px);
   transform: translateZ(0); /* Force GPU acceleration */
+  animation: orbFloat 30s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(50px, -30px) scale(1.1); }
+  50% { transform: translate(-20px, 50px) scale(0.9); }
+  75% { transform: translate(-40px, -20px) scale(1.05); }
 }
 
 .loaded .glowOrb {
@@ -338,8 +405,16 @@
   background-size: 50px 50px;
   opacity: 0;
   transform: perspective(1000px) rotateX(60deg) scale(2.5) translateY(200px);
-  transition: opacity 1.5s var(--ease-quantum) 0.8s, transform 1.5s var(--ease-quantum) 0.8s;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s, 
+              transform 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
   transform-origin: center bottom;
+  animation: gridPulse 15s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes gridPulse {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 0.1; }
 }
 
 .loaded .gridLines {
@@ -359,7 +434,9 @@
   -webkit-backdrop-filter: blur(5px);
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.8s var(--ease-quantum) 0.9s, transform 0.8s var(--ease-quantum) 0.9s;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s, 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s;
+  border: 1px solid rgba(0, 255, 0, 0.1);
 }
 
 .loaded .statsBar {
@@ -370,6 +447,11 @@
 .statsItem {
   text-align: center;
   padding: 0 24px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.statsItem:hover {
+  transform: translateY(-5px) scale(1.05);
 }
 
 .statsValue {
@@ -378,6 +460,24 @@
   color: var(--color-primary);
   margin-bottom: 4px;
   font-family: var(--font-mono);
+  position: relative;
+  display: inline-block;
+}
+
+.statsValue:after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-primary-muted);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.statsItem:hover .statsValue:after {
+  transform: scaleX(1);
 }
 
 .statsLabel {
@@ -388,37 +488,15 @@
 .statsDivider {
   width: 1px;
   height: 40px;
-  background-color: rgba(0, 255, 0, 0.2);
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
-  }
+  background: linear-gradient(to bottom, transparent, rgba(0, 255, 0, 0.2), transparent);
 }
 
 @keyframes floatParticle {
-  0% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(10px, -15px);
-  }
-  50% {
-    transform: translate(-5px, 10px);
-  }
-  75% {
-    transform: translate(-10px, -5px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(10px, -15px); }
+  50% { transform: translate(-5px, 10px); }
+  75% { transform: translate(-10px, -5px); }
+  100% { transform: translate(0, 0); }
 }
 
 @media (max-width: 768px) {
@@ -448,5 +526,16 @@
   .statsDivider {
     width: 80px;
     height: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero *,
+  .hero *:before,
+  .hero *:after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
