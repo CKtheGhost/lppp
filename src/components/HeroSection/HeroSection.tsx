@@ -1,4 +1,4 @@
-﻿'use client'
+﻿'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { useIntersectionAnimation } from '@/hooks/useIntersectionAnimation';
@@ -9,12 +9,38 @@ interface HeroSectionProps {
   onJoinClick: () => void;
 }
 
+interface ParticleProps {
+  top: string;
+  left: string;
+  animationDelay: string;
+  animationDuration: string;
+  width: string;
+  height: string;
+  opacity: number;
+}
+
 const HeroSection = ({ onJoinClick }: HeroSectionProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [particlesActive, setParticlesActive] = useState(false);
+  const [particles, setParticles] = useState<ParticleProps[]>([]);
   const heroRef = useRef<HTMLElement>(null);
   const isInView = useIntersectionAnimation(heroRef, { threshold: 0, triggerOnce: true });
   const { offset } = useParallaxEffect(heroRef, { factor: 0.05 });
+  
+  // Generate particles
+  useEffect(() => {
+    const newParticles = Array.from({ length: 30 }, (_, i) => ({
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      animationDelay: `${Math.random() * 5}s`,
+      animationDuration: `${5 + Math.random() * 7}s`,
+      width: `${2 + Math.random() * 6}px`,
+      height: `${2 + Math.random() * 6}px`,
+      opacity: 0.1 + Math.random() * 0.4
+    }));
+    
+    setParticles(newParticles);
+  }, []);
   
   // Animation loading effect
   useEffect(() => {
@@ -38,22 +64,6 @@ const HeroSection = ({ onJoinClick }: HeroSectionProps) => {
   const parallaxStyle = {
     transform: `translateY(${offset}px)`
   };
-
-  const particleElements = Array.from({ length: 30 }, (_, i) => (
-    <div 
-      key={`particle-${i}`}
-      className={`${styles.quantumParticle} ${particlesActive ? styles.active : ''}`}
-      style={{
-        top: `${Math.random() * 100}%`,
-        left: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 5}s`,
-        animationDuration: `${5 + Math.random() * 7}s`,
-        width: `${2 + Math.random() * 6}px`,
-        height: `${2 + Math.random() * 6}px`,
-        opacity: 0.1 + Math.random() * 0.4
-      }}
-    />
-  ));
 
   return (
     <section 
@@ -147,7 +157,21 @@ const HeroSection = ({ onJoinClick }: HeroSectionProps) => {
       </div>
       
       <div className={styles.quantumParticles} aria-hidden="true">
-        {particleElements}
+        {particles.map((particle, index) => (
+          <div
+            key={`particle-${index}`}
+            className={`${styles.quantumParticle} ${particlesActive ? styles.active : ''}`}
+            style={{
+              top: particle.top,
+              left: particle.left,
+              animationDelay: particle.animationDelay,
+              animationDuration: particle.animationDuration,
+              width: particle.width,
+              height: particle.height,
+              opacity: particle.opacity
+            }}
+          />
+        ))}
       </div>
       
       <div className={styles.heroDecoration} aria-hidden="true">
