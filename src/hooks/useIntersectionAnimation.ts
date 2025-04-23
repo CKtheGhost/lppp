@@ -10,7 +10,7 @@ interface IntersectionOptions {
 /**
  * Hook for triggering animations when elements enter the viewport
  */
-export function useIntersectionAnimation(
+export function useIntersectionObserver(
   ref: RefObject<Element>,
   options: IntersectionOptions = {}
 ): boolean {

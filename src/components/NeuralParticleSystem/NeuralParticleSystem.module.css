@@ -1,0 +1,334 @@
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  background: #000000;
+}
+
+.container.active {
+  opacity: 1;
+}
+
+/* Theme variations */
+.green {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 25, 0, 0.8) 0%,
+    rgba(0, 10, 0, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.blue {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 25, 0.8) 0%,
+    rgba(0, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.purple {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 0, 25, 0.8) 0%,
+    rgba(10, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.red {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(25, 0, 0, 0.8) 0%,
+    rgba(10, 0, 0, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.cyan {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 25, 25, 0.8) 0%,
+    rgba(0, 10, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.multi {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 10, 20, 0.8) 0%,
+    rgba(5, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto; /* Enable click events on the canvas */
+}
+
+/* Matrix canvas specific styles */
+.matrixCanvas {
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  filter: blur(0.3px);
+}
+
+/* Data canvas specific styles */
+.dataCanvas {
+  mix-blend-mode: screen;
+}
+
+/* Add scan lines effect */
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 2;
+  opacity: 0.15;
+  pointer-events: none;
+  animation: scanlines 0.5s linear infinite;
+}
+
+/* Add noise texture */
+.container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+');
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  z-index: 3;
+}
+
+/* Matrix theme additional grid effects */
+.green::before,
+.multi::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 255, 0, 0.03),
+      rgba(0, 255, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 0, 0.03),
+      rgba(0, 255, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+.blue::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 136, 255, 0.03),
+      rgba(0, 136, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 136, 255, 0.03),
+      rgba(0, 136, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+.purple::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(170, 0, 255, 0.03),
+      rgba(170, 0, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(170, 0, 255, 0.03),
+      rgba(170, 0, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+.red::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 51, 17, 0.03),
+      rgba(255, 51, 17, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 51, 17, 0.03),
+      rgba(255, 51, 17, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+.cyan::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 255, 255, 0.03),
+      rgba(0, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 255, 0.03),
+      rgba(0, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Add vignette effect */
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 30%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.7;
+}
+
+/* Animation for scanlines */
+@keyframes scanlines {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 4px;
+  }
+}
+
+/* Flicker effect */
+.container::after {
+  animation: flicker 6s infinite step-end;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.5; }
+  92% { opacity: 0.5; }
+  93% { opacity: 0.6; }
+  94% { opacity: 0.2; }
+  96% { opacity: 0.5; }
+  98% { opacity: 0.2; }
+  99% { opacity: 0.6; }
+}
+
+/* Digital rain glow effect */
+.green .matrixCanvas,
+.multi .matrixCanvas {
+  filter: drop-shadow(0 0 3px rgba(0, 255, 0, 0.5));
+}
+
+.blue .matrixCanvas {
+  filter: drop-shadow(0 0 3px rgba(0, 136, 255, 0.5));
+}
+
+.purple .matrixCanvas {
+  filter: drop-shadow(0 0 3px rgba(170, 0, 255, 0.5));
+}
+
+.red .matrixCanvas {
+  filter: drop-shadow(0 0 3px rgba(255, 51, 17, 0.5));
+}
+
+.cyan .matrixCanvas {
+  filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+}
+
+/* Add subtle pulsing to the background */
+.container {
+  animation: subtlePulse 8s infinite ease-in-out;
+}
+
+@keyframes subtlePulse {
+  0%, 100% { 
+    background-size: 100% 100%;
+  }
+  50% { 
+    background-size: 120% 120%;
+  }
+}
+
+/* High-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .canvas {
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container::before,
+  .container::after,
+  .matrixCanvas,
+  .dataCanvas {
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+  
+  .container.active {
+    opacity: 0.5;
+  }
+}

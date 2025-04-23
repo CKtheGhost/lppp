@@ -1,0 +1,647 @@
+/* src/components/QuantumButton/QuantumButton.module.css */
+
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  text-transform: uppercase;
+  z-index: 1;
+  outline: none;
+  text-align: center;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  will-change: transform, box-shadow, background-color;
+}
+
+/* Size variants */
+.sizeSM {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  height: 38px;
+  border-radius: 8px;
+}
+
+.sizeMD {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  height: 46px;
+  border-radius: 10px;
+}
+
+.sizeLG {
+  font-size: 1.125rem;
+  padding: 1rem 2rem;
+  height: 56px;
+  border-radius: 12px;
+}
+
+/* Full width option */
+.fullWidth {
+  width: 100%;
+}
+
+/* Theme variations with CSS custom properties */
+.green {
+  --button-primary-bg: linear-gradient(90deg, #00cc44, #00ff66, #00cc44);
+  --button-primary-text: rgba(10, 20, 15, 0.9);
+  --button-primary-border: rgba(0, 255, 102, 0.5);
+  --button-primary-glow: rgba(0, 255, 102, 0.6);
+  --button-primary-hover: linear-gradient(90deg, #00dd55, #33ff88, #00dd55);
+  --button-secondary-bg: rgba(5, 15, 10, 0.4);
+  --button-secondary-text: rgba(0, 255, 102, 0.9);
+  --button-secondary-border: rgba(0, 255, 102, 0.3);
+  --button-secondary-glow: rgba(0, 255, 102, 0.4);
+  --button-accent-color: #00ff66;
+  --button-ripple-color: rgba(0, 255, 102, 0.3);
+  --button-particle-color: rgba(0, 255, 102, 0.8);
+}
+
+.blue {
+  --button-primary-bg: linear-gradient(90deg, #0066cc, #0088ff, #0066cc);
+  --button-primary-text: rgba(10, 15, 25, 0.9);
+  --button-primary-border: rgba(0, 136, 255, 0.5);
+  --button-primary-glow: rgba(0, 136, 255, 0.6);
+  --button-primary-hover: linear-gradient(90deg, #0077dd, #33aaff, #0077dd);
+  --button-secondary-bg: rgba(5, 10, 20, 0.4);
+  --button-secondary-text: rgba(0, 136, 255, 0.9);
+  --button-secondary-border: rgba(0, 136, 255, 0.3);
+  --button-secondary-glow: rgba(0, 136, 255, 0.4);
+  --button-accent-color: #0088ff;
+  --button-ripple-color: rgba(0, 136, 255, 0.3);
+  --button-particle-color: rgba(0, 136, 255, 0.8);
+}
+
+.purple {
+  --button-primary-bg: linear-gradient(90deg, #7700cc, #aa00ff, #7700cc);
+  --button-primary-text: rgba(15, 10, 25, 0.9);
+  --button-primary-border: rgba(170, 0, 255, 0.5);
+  --button-primary-glow: rgba(170, 0, 255, 0.6);
+  --button-primary-hover: linear-gradient(90deg, #8800dd, #bb33ff, #8800dd);
+  --button-secondary-bg: rgba(10, 5, 20, 0.4);
+  --button-secondary-text: rgba(170, 0, 255, 0.9);
+  --button-secondary-border: rgba(170, 0, 255, 0.3);
+  --button-secondary-glow: rgba(170, 0, 255, 0.4);
+  --button-accent-color: #aa00ff;
+  --button-ripple-color: rgba(170, 0, 255, 0.3);
+  --button-particle-color: rgba(170, 0, 255, 0.8);
+}
+
+.cyan {
+  --button-primary-bg: linear-gradient(90deg, #00cccc, #00ffff, #00cccc);
+  --button-primary-text: rgba(10, 20, 25, 0.9);
+  --button-primary-border: rgba(0, 255, 255, 0.5);
+  --button-primary-glow: rgba(0, 255, 255, 0.6);
+  --button-primary-hover: linear-gradient(90deg, #00dddd, #33ffff, #00dddd);
+  --button-secondary-bg: rgba(5, 15, 20, 0.4);
+  --button-secondary-text: rgba(0, 255, 255, 0.9);
+  --button-secondary-border: rgba(0, 255, 255, 0.3);
+  --button-secondary-glow: rgba(0, 255, 255, 0.4);
+  --button-accent-color: #00ffff;
+  --button-ripple-color: rgba(0, 255, 255, 0.3);
+  --button-particle-color: rgba(0, 255, 255, 0.8);
+}
+
+.red {
+  --button-primary-bg: linear-gradient(90deg, #cc2211, #ff3311, #cc2211);
+  --button-primary-text: rgba(25, 15, 10, 0.9);
+  --button-primary-border: rgba(255, 51, 17, 0.5);
+  --button-primary-glow: rgba(255, 51, 17, 0.6);
+  --button-primary-hover: linear-gradient(90deg, #dd3322, #ff5533, #dd3322);
+  --button-secondary-bg: rgba(20, 10, 5, 0.4);
+  --button-secondary-text: rgba(255, 51, 17, 0.9);
+  --button-secondary-border: rgba(255, 51, 17, 0.3);
+  --button-secondary-glow: rgba(255, 51, 17, 0.4);
+  --button-accent-color: #ff3311;
+  --button-ripple-color: rgba(255, 51, 17, 0.3);
+  --button-particle-color: rgba(255, 51, 17, 0.8);
+}
+
+.multi {
+  --button-primary-bg: linear-gradient(90deg, #00cc44, #0088ff, #aa00ff, #00cc44);
+  --button-primary-text: rgba(10, 15, 20, 0.9);
+  --button-primary-border: rgba(0, 255, 102, 0.5);
+  --button-primary-glow: rgba(0, 255, 102, 0.6);
+  --button-primary-hover: linear-gradient(90deg, #00dd55, #33aaff, #bb33ff, #00dd55);
+  --button-secondary-bg: rgba(5, 10, 15, 0.4);
+  --button-secondary-text: #ffffff;
+  --button-secondary-border: rgba(136, 136, 255, 0.3);
+  --button-secondary-glow: rgba(136, 136, 255, 0.4);
+  --button-accent-color: #00ffcc;
+  --button-ripple-color: rgba(136, 136, 255, 0.3);
+  --button-particle-color: rgba(136, 136, 255, 0.8);
+}
+
+/* Style variants */
+.variantPrimary {
+  background: var(--button-primary-bg);
+  background-size: 200% auto;
+  color: var(--button-primary-text);
+  border: 1px solid var(--button-primary-border);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    0 0 0 1px var(--button-primary-border),
+    0 0 10px var(--button-primary-glow),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.variantPrimary:hover:not(.disabled) {
+  background: var(--button-primary-hover);
+  background-size: 200% auto;
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 15px rgba(0, 0, 0, 0.25),
+    0 0 0 1px var(--button-primary-border),
+    0 0 20px var(--button-primary-glow),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.variantPrimary:active:not(.disabled),
+.variantPrimary.active:not(.disabled) {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 0 0 1px var(--button-primary-border),
+    0 0 15px var(--button-primary-glow),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.variantSecondary {
+  background: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+  border: 1px solid var(--button-secondary-border);
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.1),
+    0 0 0 1px var(--button-secondary-border),
+    0 0 5px var(--button-secondary-glow);
+}
+
+.variantSecondary:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.15),
+    0 0 0 1px var(--button-secondary-border),
+    0 0 15px var(--button-secondary-glow);
+}
+
+.variantSecondary:active:not(.disabled),
+.variantSecondary.active:not(.disabled) {
+  background: rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    0 0 0 1px var(--button-secondary-border),
+    0 0 10px var(--button-secondary-glow);
+}
+
+.variantAccent {
+  background: transparent;
+  color: var(--button-accent-color);
+  border: 2px solid var(--button-accent-color);
+  box-shadow: 
+    0 0 15px var(--button-secondary-glow),
+    inset 0 0 5px var(--button-secondary-glow);
+}
+
+.variantAccent:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 0 25px var(--button-primary-glow),
+    inset 0 0 10px var(--button-primary-glow);
+}
+
+.variantAccent:active:not(.disabled),
+.variantAccent.active:not(.disabled) {
+  background: rgba(0, 0, 0, 0.2);
+  transform: translateY(0) scale(1);
+  box-shadow: 
+    0 0 15px var(--button-secondary-glow),
+    inset 0 0 5px var(--button-secondary-glow);
+}
+
+.variantGhost {
+  background: transparent;
+  color: var(--button-secondary-text);
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+
+.variantGhost:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--button-secondary-border);
+  box-shadow: 0 0 10px var(--button-secondary-glow);
+}
+
+.variantGhost:active:not(.disabled),
+.variantGhost.active:not(.disabled) {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: var(--button-secondary-border);
+  box-shadow: 0 0 5px var(--button-secondary-glow);
+}
+
+.variantDanger {
+  background: linear-gradient(90deg, #cc2211, #ff3311, #cc2211);
+  background-size: 200% auto;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 51, 17, 0.5);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 51, 17, 0.5),
+    0 0 10px rgba(255, 51, 17, 0.4);
+}
+
+.variantDanger:hover:not(.disabled) {
+  background: linear-gradient(90deg, #dd3322, #ff5533, #dd3322);
+  background-size: 200% auto;
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 15px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 51, 17, 0.5),
+    0 0 20px rgba(255, 51, 17, 0.5);
+}
+
+.variantDanger:active:not(.disabled),
+.variantDanger.active:not(.disabled) {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 51, 17, 0.5),
+    0 0 15px rgba(255, 51, 17, 0.4);
+}
+
+/* Button states */
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(40%);
+  transform: none !important;
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+.loading {
+  cursor: wait;
+  pointer-events: none;
+}
+
+.clicked {
+  animation: buttonClick 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes buttonClick {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.95); }
+  60% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Button content wrapper */
+.buttonContent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  z-index: 3;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.button:hover .buttonContent {
+  transform: translateZ(3px);
+}
+
+/* Background effect */
+.buttonBackground {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  overflow: hidden;
+  opacity: 0.3;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.1) 2px,
+      rgba(255, 255, 255, 0.1) 4px
+    );
+  animation: backgroundShift 60s linear infinite;
+}
+
+@keyframes backgroundShift {
+  0% { background-position: 0 0; }
+  100% { background-position: 100px 100px; }
+}
+
+/* Glow effect */
+.glowEffect {
+  position: absolute;
+  inset: -5px;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at center,
+    var(--button-primary-glow) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.button:hover .glowEffect {
+  opacity: 0.6;
+}
+
+.button:active .glowEffect {
+  opacity: 0.3;
+  filter: blur(5px);
+}
+
+/* Shimmer effect */
+.shimmerEffect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.shimmerEffect::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  transform: rotate(-45deg);
+  animation: shimmer 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) rotate(-45deg); }
+  60%, 100% { transform: translateX(100%) rotate(-45deg); }
+}
+
+/* Matrix overlay for cyber effect */
+.matrixOverlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: 
+    linear-gradient(
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.15) 50%
+    );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.2;
+  mix-blend-mode: overlay;
+}
+
+/* Ripple effect */
+.rippleContainer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--button-ripple-color);
+  transform: scale(0);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: ripple 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* Button border effect */
+.buttonBorder {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.buttonBorder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.button:hover .buttonBorder::after {
+  opacity: 1;
+  border-color: var(--button-primary-glow);
+  box-shadow: 0 0 20px var(--button-primary-glow);
+}
+
+/* Neural particles */
+.neuralParticle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: var(--button-particle-color);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 5;
+  box-shadow: 0 0 5px var(--button-particle-color);
+  animation: particleFade 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes particleFade {
+  0% { transform: translate(0, 0) scale(0.3); opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { transform: translate(var(--pX, 50px), var(--pY, 50px)) scale(0); opacity: 0; }
+}
+
+/* Icons */
+.startIcon, .endIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.button:hover .startIcon {
+  transform: translateX(-2px);
+}
+
+.button:hover .endIcon {
+  transform: translateX(2px);
+}
+
+/* Loading spinner */
+.loadingSpinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinnerRing {
+  width: 100%;
+  height: 100%;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading .buttonText {
+  opacity: 0;
+}
+
+/* Additional quantum effects */
+.button:before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    to right, 
+    transparent, 
+    var(--button-primary-border), 
+    transparent
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.button:hover:before {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .button {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.2rem;
+  }
+  
+  .sizeSM {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    height: 34px;
+  }
+  
+  .sizeMD {
+    font-size: 0.9rem;
+    padding: 0.65rem 1.2rem;
+    height: 40px;
+  }
+  
+  .sizeLG {
+    font-size: 1rem;
+    padding: 0.85rem 1.5rem;
+    height: 48px;
+  }
+}
+
+/* Accessibility */
+.button:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 0 0 3px var(--button-primary-glow),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .buttonContent,
+  .shimmerEffect::after,
+  .ripple,
+  .glowEffect,
+  .neuralParticle {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .button:hover {
+    transform: none !important;
+  }
+  
+  .spinnerRing {
+    animation: spin 1.5s linear infinite !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .button {
+    border: 2px solid currentColor !important;
+    box-shadow: none !important;
+  }
+  
+  .glowEffect,
+  .shimmerEffect,
+  .matrixOverlay,
+  .buttonBackground {
+    display: none !important;
+  }
+}

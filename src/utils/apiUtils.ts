@@ -1,4 +1,5 @@
 ﻿// src/utils/apiUtils.ts
+import { useState } from 'react';
 
 export async function submitRegistration(formData: Record<string, any>) {
   try {
@@ -19,4 +20,32 @@ export async function submitRegistration(formData: Record<string, any>) {
     console.error('Error submitting registration:', error);
     throw error;
   }
+}
+
+// Hook for managing API loading states
+export function useApiStatus() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  
+  // Wrapper for submitRegistration with loading state
+  const submitRegistrationWithLoading = async (formData: Record<string, any>) => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const result = await submitRegistration(formData);
+      return result;
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error occurred'));
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  return { 
+    isLoading, 
+    error, 
+    submitRegistrationWithLoading 
+  };
 }

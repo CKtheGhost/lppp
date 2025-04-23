@@ -18,8 +18,8 @@ export function trackEvent(eventName: string, eventData: Record<string, any>) {
   
   // Log in development mode
   if (typeof window !== 'undefined' && 
-      window.location.hostname === 'localhost' || 
-      window.location.hostname === '127.0.0.1') {
+      (window.location.hostname === 'localhost' || 
+      window.location.hostname === '127.0.0.1')) {
     console.log('EVENT:', eventName, eventData);
   }
 }

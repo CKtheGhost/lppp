@@ -1,0 +1,202 @@
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/InteractiveStellarMap/InteractiveStellarMap.module.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************/
+.InteractiveStellarMap_container__y7PfU {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #000000;
+}
+
+.InteractiveStellarMap_container__y7PfU.InteractiveStellarMap_active__bpLC8 {
+  opacity: 1;
+}
+
+/* Theme variations */
+.InteractiveStellarMap_green__8F1Pf {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 25, 0, 0.8) 0%,
+    rgba(0, 10, 0, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.InteractiveStellarMap_blue__lBURB {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 25, 0.8) 0%,
+    rgba(0, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.InteractiveStellarMap_red__AfLLb {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(25, 0, 0, 0.8) 0%,
+    rgba(10, 0, 0, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.InteractiveStellarMap_purple__6KrZs {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 0, 25, 0.8) 0%,
+    rgba(10, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.InteractiveStellarMap_cyan__Ambin {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 25, 25, 0.8) 0%,
+    rgba(0, 10, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.InteractiveStellarMap_multi__asvOr {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 10, 20, 0.8) 0%,
+    rgba(5, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.InteractiveStellarMap_canvas__I7spY {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Add scan lines effect */
+.InteractiveStellarMap_container__y7PfU::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 2;
+  opacity: 0.15;
+  pointer-events: none;
+  animation: InteractiveStellarMap_scanlines__2NQI2 0.5s linear infinite;
+}
+
+/* Add noise texture */
+.InteractiveStellarMap_container__y7PfU::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+');
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  z-index: 3;
+}
+
+/* Add vignette effect */
+.InteractiveStellarMap_container__y7PfU .InteractiveStellarMap_content__plmeV::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 30%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Content container */
+.InteractiveStellarMap_content__plmeV {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Make content children interactive */
+.InteractiveStellarMap_content__plmeV > * {
+  pointer-events: auto;
+}
+
+/* Matrix theme additional effects */
+.InteractiveStellarMap_green__8F1Pf::after,
+.InteractiveStellarMap_multi__asvOr::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 255, 0, 0.03),
+      rgba(0, 255, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 30px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 0, 0.03),
+      rgba(0, 255, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 30px
+    );
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 3;
+}
+
+/* Animation for scanlines */
+@keyframes InteractiveStellarMap_scanlines__2NQI2 {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 4px;
+  }
+}
+
+/* Flicker effect */
+.InteractiveStellarMap_container__y7PfU::before {
+  animation: InteractiveStellarMap_flicker__A2QWQ 6s infinite step-end;
+}
+
+@keyframes InteractiveStellarMap_flicker__A2QWQ {
+  0%, 100% { opacity: 0.15; }
+  92% { opacity: 0.15; }
+  93% { opacity: 0.2; }
+  94% { opacity: 0.0; }
+  96% { opacity: 0.15; }
+  98% { opacity: 0.0; }
+  99% { opacity: 0.2; }
+}
+
+/* High-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .InteractiveStellarMap_canvas__I7spY {
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .InteractiveStellarMap_container__y7PfU,
+  .InteractiveStellarMap_container__y7PfU::before,
+  .InteractiveStellarMap_container__y7PfU::after {
+    animation: none !important;
+    transition: opacity 0.1s linear !important;
+  }
+}

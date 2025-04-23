@@ -1,17 +1,105 @@
-'use client'
+'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './HamburgerMenu.module.css';
 
-interface HamburgerMenuProps {
-  onJoinClick: () => void;
+export interface NavItem {
+  id: string;
+  label: string;
+  link?: string;
+  onClick?: () => void;
 }
 
-const HamburgerMenu = ({ onJoinClick }: HamburgerMenuProps) => {
+export interface SocialLink {
+  label: string;
+  icon: React.ReactNode;
+  url: string;
+}
+
+export interface HamburgerMenuProps {
+  onJoinClick: () => void;
+  navigationItems?: NavItem[];
+  ctaLabel?: string;
+  socialLinks?: SocialLink[];
+  logoText?: string;
+  darkMode?: boolean;
+  position?: 'left' | 'right';
+}
+
+const defaultNavItems: NavItem[] = [
+  {
+    id: 'home',
+    label: 'Home',
+    link: '#hero'
+  },
+  {
+    id: 'features',
+    label: 'Quantum Capabilities',
+    link: '#features'
+  },
+  {
+    id: 'protocol',
+    label: 'Neural Protocol',
+    link: '#how-it-works'
+  },
+  {
+    id: 'database',
+    label: 'Quantum Database',
+    link: '#faq'
+  }
+];
+
+const defaultSocialLinks: SocialLink[] = [
+  {
+    label: 'Twitter',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+      </svg>
+    ),
+    url: '#'
+  },
+  {
+    label: 'Discord',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 9a5 5 0 0 0-5-5H9.5a5 5 0 0 0-5 5v6a5 5 0 0 0 5 5H14"></path>
+        <path d="M16 8l3 3-3 3"></path>
+      </svg>
+    ),
+    url: '#'
+  },
+  {
+    label: 'Telegram',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 2L11 13"></path>
+        <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+      </svg>
+    ),
+    url: '#'
+  }
+];
+
+const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
+  onJoinClick,
+  navigationItems = defaultNavItems,
+  ctaLabel = 'Join Early Access',
+  socialLinks = defaultSocialLinks,
+  logoText = 'PROSPERA',
+  darkMode = true,
+  position = 'right'
+}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeItemId, setActiveItemId] = useState<string>('');
   const menuRef = useRef<HTMLDivElement>(null);
+  const firstRender = useRef(true);
   
+  // Handle menu toggle
   const toggleMenu = () => {
+    if (firstRender.current) {
+      firstRender.current = false;
+    }
     setIsOpen(prev => !prev);
   };
   
@@ -35,7 +123,8 @@ const HamburgerMenu = ({ onJoinClick }: HamburgerMenuProps) => {
     // Prevent body scroll when menu is open
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-    } else {
+    } else if (!firstRender.current) {
+      // Only change body style after initial render
       document.body.style.overflow = '';
     }
     
@@ -45,64 +134,156 @@ const HamburgerMenu = ({ onJoinClick }: HamburgerMenuProps) => {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
+  
+  // Update active menu item based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      
+      // Find the section that is currently in view
+      let currentSection = '';
+      navigationItems.forEach(item => {
+        if (!item.link || !item.link.startsWith('#')) return;
+        
+        const section = document.querySelector(item.link);
+        if (!section) return;
+        
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 200 && rect.bottom >= 200) {
+          currentSection = item.id;
+        }
+      });
+      
+      setActiveItemId(currentSection);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check on initial load
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [navigationItems]);
+  
+  // Handle nav item click
+  const handleNavItemClick = (item: NavItem) => {
+    if (item.onClick) {
+      item.onClick();
+    }
+    
+    if (item.link) {
+      // Smooth scroll to section
+      const element = document.querySelector(item.link);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    
+    setIsOpen(false);
+  };
+  
+  // Render navigation items
+  const renderNavItems = () => {
+    return navigationItems.map((item, index) => (
+      <li 
+        key={item.id}
+        className={`${styles.navItem} ${activeItemId === item.id ? styles.active : ''}`}
+        style={{ transitionDelay: `${index * 50 + 100}ms` }}
+      >
+        <button
+          className={styles.navLink}
+          onClick={() => handleNavItemClick(item)}
+          aria-current={activeItemId === item.id ? 'page' : undefined}
+        >
+          <span className={styles.navItemIcon}>
+            <svg 
+              className={styles.navItemIconSvg} 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M12 2L2 7L12 12L22 7L12 2Z" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+              <path 
+                d="M2 17L12 22L22 17" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+              <path 
+                d="M2 12L12 17L22 12" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <span className={styles.navItemText}>{item.label}</span>
+        </button>
+      </li>
+    ));
+  };
+  
+  // Render social links
+  const renderSocialLinks = () => {
+    return socialLinks.map((link, index) => (
+      <a 
+        key={link.label}
+        href={link.url}
+        className={styles.socialIcon}
+        aria-label={link.label}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ transitionDelay: `${index * 50 + 200}ms` }}
+      >
+        {link.icon}
+        <span className={styles.socialGlow}></span>
+      </a>
+    ));
+  };
 
   return (
-    <div className={styles.hamburgerMenuContainer} ref={menuRef}>
+    <div 
+      className={`
+        ${styles.hamburgerMenuContainer} 
+        ${darkMode ? styles.darkMode : styles.lightMode}
+        ${position === 'left' ? styles.positionLeft : styles.positionRight}
+      `} 
+      ref={menuRef}
+    >
+      {/* Hamburger button */}
       <button 
         className={`${styles.hamburgerButton} ${isOpen ? styles.open : ''}`}
         onClick={toggleMenu}
         aria-expanded={isOpen}
         aria-label="Main menu"
+        aria-controls="mobile-menu"
       >
+        <div className={styles.hamburgerGlow}></div>
         <span className={styles.hamburgerBar}></span>
         <span className={styles.hamburgerBar}></span>
         <span className={styles.hamburgerBar}></span>
       </button>
       
-      <div className={`${styles.mobileMenu} ${isOpen ? styles.open : ''}`}>
-        <nav className={styles.mobileNav}>
-          <ul>
-            <li>
-              <a 
-                href="#features" 
-                onClick={() => setIsOpen(false)}
-              >
-                Features
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#benefits" 
-                onClick={() => setIsOpen(false)}
-              >
-                Benefits
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#how-it-works" 
-                onClick={() => setIsOpen(false)}
-              >
-                How It Works
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#investment-tiers" 
-                onClick={() => setIsOpen(false)}
-              >
-                Investment Tiers
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#faq" 
-                onClick={() => setIsOpen(false)}
-              >
-                FAQ
-              </a>
-            </li>
-          </ul>
+      {/* Mobile menu */}
+      <div 
+        id="mobile-menu"
+        className={`${styles.mobileMenu} ${isOpen ? styles.open : ''}`}
+        aria-hidden={!isOpen}
+      >
+        <div className={styles.menuHeader}>
+          <span className={styles.logoText}>{logoText}</span>
+        </div>
+        
+        <nav className={styles.mobileNav} aria-label="Main navigation">
+          <ul>{renderNavItems()}</ul>
         </nav>
         
         <div className={styles.mobileCtaContainer}>
@@ -113,34 +294,44 @@ const HamburgerMenu = ({ onJoinClick }: HamburgerMenuProps) => {
               onJoinClick();
             }}
           >
-            Join Early Access
+            {ctaLabel}
+            <span className={styles.ctaGlow}></span>
           </button>
         </div>
         
         <div className={styles.mobileSocial}>
-          <a href="#" className={styles.socialIcon} aria-label="Twitter">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 512 512">
-              <path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53 51.7 63.7 129.3 105.3 216.4 109.8-1.6-7.8-2.6-15.9-2.6-24 0-57.8 46.8-104.9 104.9-104.9 30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3z"/>
-            </svg>
-          </a>
-          <a href="#" className={styles.socialIcon} aria-label="Discord">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 640 512">
-              <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"/>
-            </svg>
-          </a>
-          <a href="#" className={styles.socialIcon} aria-label="Telegram">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 496 512">
-              <path d="M248,8C111.033,8,0,119.033,0,256S111.033,504,248,504,496,392.967,496,256,384.967,8,248,8ZM362.952,176.66c-3.732,39.215-19.881,134.378-28.1,178.3-3.476,18.584-10.322,24.816-16.948,25.425-14.4,1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25,5.342-39.5,3.652-3.793,67.107-61.51,68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608,69.142-14.845,10.194-26.894,9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7,18.45-13.7,108.446-47.248,144.628-62.3c68.872-28.647,83.183-33.623,92.511-33.789,2.052-.034,6.639.474,9.61,2.885a10.452,10.452,0,0,1,3.53,6.716A43.765,43.765,0,0,1,362.952,176.66Z"/>
-            </svg>
-          </a>
+          {renderSocialLinks()}
         </div>
+        
+        {/* Neural particle background effect */}
+        <div className={styles.neuralParticles} aria-hidden="true">
+          {Array.from({ length: 12 }).map((_, index) => (
+            <div 
+              key={index} 
+              className={styles.neuralParticle}
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                width: `${Math.random() * 4 + 2}px`,
+                height: `${Math.random() * 4 + 2}px`
+              }}
+            ></div>
+          ))}
+        </div>
+        
+        {/* Background gradient */}
+        <div className={styles.menuGradient} aria-hidden="true"></div>
       </div>
       
-      {/* Mobile menu backdrop overlay */}
+      {/* Menu backdrop/overlay */}
       <div 
         className={`${styles.menuBackdrop} ${isOpen ? styles.active : ''}`}
         onClick={() => setIsOpen(false)}
-      ></div>
+        aria-hidden="true"
+      >
+        <div className={styles.backdropGlow}></div>
+      </div>
     </div>
   );
 };

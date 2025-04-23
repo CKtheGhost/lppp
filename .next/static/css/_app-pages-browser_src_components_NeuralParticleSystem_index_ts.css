@@ -1,0 +1,337 @@
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/NeuralParticleSystem/NeuralParticleSystem.module.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
+.NeuralParticleSystem_container__JUvux {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  background: #000000;
+}
+
+.NeuralParticleSystem_container__JUvux.NeuralParticleSystem_active__R988f {
+  opacity: 1;
+}
+
+/* Theme variations */
+.NeuralParticleSystem_green__LgrW2 {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 25, 0, 0.8) 0%,
+    rgba(0, 10, 0, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.NeuralParticleSystem_blue__5N816 {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 25, 0.8) 0%,
+    rgba(0, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.NeuralParticleSystem_purple__pA7yk {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 0, 25, 0.8) 0%,
+    rgba(10, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.NeuralParticleSystem_red__r8wNa {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(25, 0, 0, 0.8) 0%,
+    rgba(10, 0, 0, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.NeuralParticleSystem_cyan__VJwMX {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 25, 25, 0.8) 0%,
+    rgba(0, 10, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.NeuralParticleSystem_multi__xJcce {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 10, 20, 0.8) 0%,
+    rgba(5, 0, 10, 0.97) 70%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.NeuralParticleSystem_canvas__GZ2mZ {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto; /* Enable click events on the canvas */
+}
+
+/* Matrix canvas specific styles */
+.NeuralParticleSystem_matrixCanvas__mba2Y {
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  filter: blur(0.3px);
+}
+
+/* Data canvas specific styles */
+.NeuralParticleSystem_dataCanvas__t7Flg {
+  mix-blend-mode: screen;
+}
+
+/* Add scan lines effect */
+.NeuralParticleSystem_container__JUvux::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 2;
+  opacity: 0.15;
+  pointer-events: none;
+  animation: NeuralParticleSystem_scanlines__gwL0L 0.5s linear infinite;
+}
+
+/* Add noise texture */
+.NeuralParticleSystem_container__JUvux::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+');
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  z-index: 3;
+}
+
+/* Matrix theme additional grid effects */
+.NeuralParticleSystem_green__LgrW2::before,
+.NeuralParticleSystem_multi__xJcce::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 255, 0, 0.03),
+      rgba(0, 255, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 0, 0.03),
+      rgba(0, 255, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+.NeuralParticleSystem_blue__5N816::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 136, 255, 0.03),
+      rgba(0, 136, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 136, 255, 0.03),
+      rgba(0, 136, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+.NeuralParticleSystem_purple__pA7yk::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(170, 0, 255, 0.03),
+      rgba(170, 0, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(170, 0, 255, 0.03),
+      rgba(170, 0, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+.NeuralParticleSystem_red__r8wNa::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 51, 17, 0.03),
+      rgba(255, 51, 17, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 51, 17, 0.03),
+      rgba(255, 51, 17, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+.NeuralParticleSystem_cyan__VJwMX::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 255, 255, 0.03),
+      rgba(0, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 255, 0.03),
+      rgba(0, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Add vignette effect */
+.NeuralParticleSystem_container__JUvux::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 30%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.7;
+}
+
+/* Animation for scanlines */
+@keyframes NeuralParticleSystem_scanlines__gwL0L {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 4px;
+  }
+}
+
+/* Flicker effect */
+.NeuralParticleSystem_container__JUvux::after {
+  animation: NeuralParticleSystem_flicker__mWrFO 6s infinite step-end;
+}
+
+@keyframes NeuralParticleSystem_flicker__mWrFO {
+  0%, 100% { opacity: 0.5; }
+  92% { opacity: 0.5; }
+  93% { opacity: 0.6; }
+  94% { opacity: 0.2; }
+  96% { opacity: 0.5; }
+  98% { opacity: 0.2; }
+  99% { opacity: 0.6; }
+}
+
+/* Digital rain glow effect */
+.NeuralParticleSystem_green__LgrW2 .NeuralParticleSystem_matrixCanvas__mba2Y,
+.NeuralParticleSystem_multi__xJcce .NeuralParticleSystem_matrixCanvas__mba2Y {
+  filter: drop-shadow(0 0 3px rgba(0, 255, 0, 0.5));
+}
+
+.NeuralParticleSystem_blue__5N816 .NeuralParticleSystem_matrixCanvas__mba2Y {
+  filter: drop-shadow(0 0 3px rgba(0, 136, 255, 0.5));
+}
+
+.NeuralParticleSystem_purple__pA7yk .NeuralParticleSystem_matrixCanvas__mba2Y {
+  filter: drop-shadow(0 0 3px rgba(170, 0, 255, 0.5));
+}
+
+.NeuralParticleSystem_red__r8wNa .NeuralParticleSystem_matrixCanvas__mba2Y {
+  filter: drop-shadow(0 0 3px rgba(255, 51, 17, 0.5));
+}
+
+.NeuralParticleSystem_cyan__VJwMX .NeuralParticleSystem_matrixCanvas__mba2Y {
+  filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+}
+
+/* Add subtle pulsing to the background */
+.NeuralParticleSystem_container__JUvux {
+  animation: NeuralParticleSystem_subtlePulse__Y_j3M 8s infinite ease-in-out;
+}
+
+@keyframes NeuralParticleSystem_subtlePulse__Y_j3M {
+  0%, 100% { 
+    background-size: 100% 100%;
+  }
+  50% { 
+    background-size: 120% 120%;
+  }
+}
+
+/* High-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .NeuralParticleSystem_canvas__GZ2mZ {
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .NeuralParticleSystem_container__JUvux,
+  .NeuralParticleSystem_container__JUvux::before,
+  .NeuralParticleSystem_container__JUvux::after,
+  .NeuralParticleSystem_matrixCanvas__mba2Y,
+  .NeuralParticleSystem_dataCanvas__t7Flg {
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+  
+  .NeuralParticleSystem_container__JUvux.NeuralParticleSystem_active__R988f {
+    opacity: 0.5;
+  }
+}

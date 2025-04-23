@@ -1,0 +1,691 @@
+.sidebar {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%) translateX(calc(100% + 2rem));
+  z-index: 40;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  perspective: 1000px;
+  pointer-events: none; /* Make entire sidebar non-blocking */
+}
+
+.sidebar.loaded {
+  transform: translateY(-50%) translateX(0);
+}
+
+.sidebar.alwaysVisible {
+  transform: translateY(-50%) translateX(0);
+}
+
+.card {
+  position: relative;
+  background: rgba(11, 17, 30, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 2.25rem;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 1px solid rgba(0, 255, 102, 0.15);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 80px rgba(0, 255, 102, 0.1),
+    inset 0 0 2px rgba(0, 255, 102, 0.3);
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0deg);
+  pointer-events: auto; /* Re-enable pointer events for the cards */
+}
+
+.card:hover {
+  transform: 
+    perspective(1000px)
+    rotateX(2deg)
+    translateY(-8px)
+    scale(1.02);
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.35),
+    0 0 100px rgba(0, 255, 102, 0.2),
+    inset 0 0 3px rgba(0, 255, 102, 0.5);
+  border-color: rgba(0, 255, 102, 0.3);
+}
+
+.card:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(
+      ellipse at 50% 0%, 
+      rgba(0, 255, 102, 0.2) 0%, 
+      rgba(0, 255, 102, 0) 70%
+    );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.card:hover:before {
+  opacity: 1;
+}
+
+.cardBorder {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 1px solid rgba(0, 255, 102, 0.2);
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 0 0 20px 1px rgba(0, 255, 102, 0.2);
+}
+
+.card:hover .cardBorder {
+  opacity: 1;
+  animation: borderPulse 3s infinite cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes borderPulse {
+  0%, 100% { 
+    opacity: 0.3; 
+    box-shadow: 0 0 15px 1px rgba(0, 255, 102, 0.3); 
+  }
+  50% { 
+    opacity: 0.9; 
+    box-shadow: 0 0 25px 2px rgba(0, 255, 102, 0.5); 
+  }
+}
+
+.cardContent {
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+  font-family: var(--font-display);
+  position: relative;
+  display: inline-block;
+  text-shadow: 
+    0 0 10px var(--color-glow),
+    0 0 20px rgba(0, 255, 102, 0.2);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary),
+    transparent
+  );
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 10px var(--color-glow);
+}
+
+.card:hover .title::after {
+  width: 100%;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  opacity: 0.8;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  transform: translateY(0);
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.card:hover .subtitle {
+  opacity: 1;
+  transform: translateY(2px);
+}
+
+/* Counter specific styles */
+.progressContainer {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, 0.3),
+    inset 0 0 3px rgba(0, 255, 102, 0.1);
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, 
+    rgba(0, 180, 90, 0.7), 
+    rgba(0, 255, 102, 1), 
+    rgba(0, 255, 150, 0.9), 
+    rgba(0, 255, 102, 1)
+  );
+  background-size: 300% 100%;
+  border-radius: 20px;
+  width: 0%;
+  position: relative;
+  transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: gradientShift 5s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.progressBar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: progressShine 3s infinite;
+}
+
+@keyframes progressShine {
+  0% { transform: translateX(-100%); }
+  20%, 100% { transform: translateX(100%); }
+}
+
+.valuesContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+.valueBox {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.valueBox:hover {
+  transform: translateY(-3px);
+}
+
+.divider {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, 
+    transparent, 
+    rgba(0, 255, 102, 0.3), 
+    transparent
+  );
+  margin: 0 16px;
+}
+
+.value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  line-height: 1;
+  position: relative;
+}
+
+.remainingValue {
+  color: var(--color-primary);
+  text-shadow: 
+    0 0 10px rgba(0, 255, 102, 0.5),
+    0 0 20px rgba(0, 255, 102, 0.3);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 255, 102, 1) 0%,
+    rgba(0, 180, 90, 0.8) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.totalValue {
+  color: var(--color-text-primary);
+  opacity: 0.9;
+}
+
+.valueLabel {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Countdown specific styles */
+.countdownDisplay {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.timeUnit {
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.timeUnit:hover {
+  transform: translateY(-4px);
+}
+
+.timeBox {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 10, 20, 0.7);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(0, 255, 102, 0.15);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    inset 0 0 2px rgba(0, 255, 102, 0.2);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  perspective: 500px;
+}
+
+.timeUnit:hover .timeBox {
+  border-color: rgba(0, 255, 102, 0.4);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.25),
+    0 0 15px rgba(0, 255, 102, 0.2),
+    inset 0 0 3px rgba(0, 255, 102, 0.3);
+}
+
+.timeBox:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 102, 0.3),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeUnit:hover .timeBox:before {
+  opacity: 1;
+}
+
+.timeBox:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.2),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.timeDigits {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.5px;
+  transform: translateZ(0);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.timeUnit:hover .timeDigits {
+  transform: translateZ(10px);
+}
+
+.timeUnit.active .timeDigits {
+  color: var(--color-primary);
+  text-shadow: 
+    0 0 10px var(--color-glow),
+    0 0 20px rgba(0, 255, 102, 0.3);
+  animation: digitPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes digitPop {
+  0% { transform: scale(1) translateZ(0); }
+  50% { transform: scale(1.3) translateZ(20px); }
+  100% { transform: scale(1) translateZ(10px); }
+}
+
+.timeLabel {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.timeUnit:hover .timeLabel {
+  color: var(--color-text-primary);
+}
+
+.timeUnit.active .timeLabel {
+  color: var(--color-primary);
+  text-shadow: 0 0 5px rgba(0, 255, 102, 0.3);
+}
+
+/* Button styles */
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 200, 80, 1),
+    rgba(0, 255, 102, 1),
+    rgba(0, 200, 80, 1)
+  );
+  background-size: 200% auto;
+  color: rgba(5, 10, 20, 0.95);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(0, 255, 102, 0.3),
+    inset 0 -2px 5px rgba(0, 180, 60, 0.5),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  outline: none;
+}
+
+.button:focus-visible {
+  box-shadow: 
+    0 0 0 3px rgba(0, 255, 102, 0.5),
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(0, 255, 102, 0.3);
+}
+
+.button:hover {
+  transform: translateY(-4px) scale(1.02);
+  background-position: right center;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.25),
+    0 0 30px rgba(0, 255, 102, 0.4),
+    inset 0 -2px 5px rgba(0, 180, 60, 0.5),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3);
+}
+
+.button:active {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.15),
+    0 0 15px rgba(0, 255, 102, 0.3),
+    inset 0 -1px 2px rgba(0, 180, 60, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.buttonGlow {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0s;
+  filter: blur(3px);
+}
+
+.button:hover .buttonGlow {
+  left: 100%;
+  transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Quantum visual effects */
+.quantumEffects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.8;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .quantumEffects {
+  opacity: 1;
+}
+
+.glowOrb {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle, 
+    rgba(0, 255, 102, 0.1) 0%, 
+    rgba(0, 255, 102, 0.05) 30%, 
+    transparent 70%
+  );
+  filter: blur(20px);
+  top: -100px;
+  right: -100px;
+  opacity: 0.4;
+  animation: orbFloat 20s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gridLines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, rgba(0, 255, 102, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.15;
+  animation: gridFloat 30s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .gridLines {
+  opacity: 0.25;
+  animation-duration: 15s;
+}
+
+@keyframes orbFloat {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1); 
+    opacity: 0.4;
+  }
+  25% { 
+    transform: translate(-30px, 20px) scale(1.2); 
+    opacity: 0.5;
+  }
+  50% { 
+    transform: translate(20px, 40px) scale(0.9); 
+    opacity: 0.3;
+  }
+  75% { 
+    transform: translate(-40px, -30px) scale(1.1); 
+    opacity: 0.6;
+  }
+}
+
+@keyframes gridFloat {
+  0% { 
+    background-position: 0 0; 
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% { 
+    background-position: 20px 10px; 
+    opacity: 0.15;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 320px;
+    right: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 300px;
+    right: 1rem;
+  }
+  
+  .card {
+    padding: 1.75rem;
+  }
+  
+  .countdownDisplay {
+    gap: 0.75rem;
+  }
+  
+  .timeBox {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .timeDigits {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide sidebar on mobile */
+  }
+  
+  .sidebar.alwaysVisible {
+    display: flex;
+    width: 280px;
+    right: 0.75rem;
+    
+    /* On mobile: make it float at the bottom instead of centered */
+    top: auto;
+    bottom: 20px;
+    transform: translateY(0) translateX(0) !important;
+    
+    /* Adjust the layout to be horizontal on small screens */
+    flex-direction: row;
+    overflow-x: auto;
+    max-width: calc(100% - 1.5rem);
+    padding-bottom: 10px;
+  }
+  
+  .sidebar.alwaysVisible .card {
+    flex: 0 0 280px;
+    padding: 1.25rem;
+    min-width: 280px;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .countdownDisplay {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .timeBox {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .timeDigits {
+    font-size: 1.25rem;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+  }
+  
+  .button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .card,
+  .progressBar,
+  .timeBox,
+  .button,
+  .quantumEffects *,
+  .cardBorder,
+  .buttonGlow {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .card:hover {
+    transform: none;
+  }
+}

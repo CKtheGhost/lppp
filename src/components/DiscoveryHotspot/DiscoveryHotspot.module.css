@@ -1,0 +1,413 @@
+.container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 35;
+  pointer-events: all;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+.container.visible {
+  opacity: 1;
+}
+
+/* Theme variants */
+.green {
+  --hotspot-color: #00ff00;
+  --hotspot-glow: rgba(0, 255, 0, 0.8);
+  --hotspot-secondary: #00cc44;
+  --hotspot-text: #ccffcc;
+  --hotspot-dark: #003300;
+}
+
+.blue {
+  --hotspot-color: #0088ff;
+  --hotspot-glow: rgba(0, 136, 255, 0.8);
+  --hotspot-secondary: #00ccff;
+  --hotspot-text: #ccf5ff;
+  --hotspot-dark: #000066;
+}
+
+.purple {
+  --hotspot-color: #aa00ff;
+  --hotspot-glow: rgba(170, 0, 255, 0.8);
+  --hotspot-secondary: #cc66ff;
+  --hotspot-text: #eeccff;
+  --hotspot-dark: #330066;
+}
+
+.red {
+  --hotspot-color: #ff3311;
+  --hotspot-glow: rgba(255, 51, 17, 0.8);
+  --hotspot-secondary: #ff6644;
+  --hotspot-text: #ffcccc;
+  --hotspot-dark: #660000;
+}
+
+.cyan {
+  --hotspot-color: #00ffff;
+  --hotspot-glow: rgba(0, 255, 255, 0.8);
+  --hotspot-secondary: #66ffff;
+  --hotspot-text: #ccffff;
+  --hotspot-dark: #006666;
+}
+
+.multi {
+  --hotspot-color: #00ff00;
+  --hotspot-glow: rgba(0, 255, 102, 0.8);
+  --hotspot-secondary: #00ccff;
+  --hotspot-text: #ffffff;
+  --hotspot-dark: #001100;
+}
+
+/* Canvas for code effect */
+.codeCanvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+}
+
+/* Hotspot area */
+.hotspot {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: radial-gradient(circle, rgba(0, 255, 102, 0.1), transparent 70%);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 0 20px var(--hotspot-glow);
+  overflow: hidden;
+  border: 2px solid var(--hotspot-color);
+}
+
+.hotspot.normal {
+  background: radial-gradient(circle, rgba(0, 255, 102, 0.1), transparent 70%);
+}
+
+.hotspot.active {
+  background: radial-gradient(circle, rgba(0, 255, 102, 0.3), transparent 70%);
+}
+
+.hotspot.hovered:not(.discovered) {
+  transform: scale(1.1);
+}
+
+.hotspot.animating {
+  animation: discoveryPulse 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hotspot.discovered {
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5), 0 0 25px var(--hotspot-glow);
+}
+
+/* Center dot */
+.centerDot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--hotspot-glow);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.centerDot.normal {
+  width: 20%;
+  height: 20%;
+}
+
+.centerDot.discovered {
+  width: 30%;
+  height: 30%;
+}
+
+/* Digital code elements in center */
+.codeElements {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  opacity: 0.8;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  text-align: center;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.codeElement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  animation: codeChange 2s infinite steps(1);
+}
+
+@keyframes codeChange {
+  0%, 20%, 40%, 60%, 80% {
+    opacity: 1;
+  }
+  10%, 30%, 50%, 70%, 90% {
+    opacity: 0.5;
+  }
+}
+
+.codeElement:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.codeElement:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.codeElement:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.codeElement:nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+/* Pulse rings */
+.pulseRings {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulseRing {
+  position: absolute;
+  border: 2px solid var(--hotspot-color);
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: pulseRing 3s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pulseRing:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.pulseRing:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.pulseRing:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.pulseRing.discovered {
+  opacity: 0.5;
+  border-width: 3px;
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Digital scan line for activation animation */
+.scanLineContainer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.scanLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--hotspot-color) 50%,
+    transparent 100%
+  );
+  opacity: 0.7;
+  top: 0;
+  animation: scanDown 1.5s linear;
+  box-shadow: 0 0 10px var(--hotspot-glow);
+}
+
+@keyframes scanDown {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Glow effect */
+.glowEffect {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glowEffect.active {
+  opacity: 1;
+}
+
+/* Label */
+.label {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+  width: max-content;
+  max-width: 200px;
+  pointer-events: none;
+  font-family: "JetBrains Mono", monospace;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: rgba(5, 15, 5, 0.8);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--hotspot-color);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.label.visible {
+  opacity: 1;
+}
+
+.label.discovered {
+  color: var(--hotspot-color);
+  text-shadow: 0 0 8px var(--hotspot-glow);
+  border-color: var(--hotspot-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 15px var(--hotspot-glow);
+}
+
+.primaryLabel {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.accessStatus {
+  font-size: 10px;
+  font-weight: normal;
+  opacity: 0.8;
+}
+
+.secondaryLabel {
+  font-size: 11px;
+  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.label.discovered .secondaryLabel {
+  color: var(--hotspot-text);
+}
+
+/* Discovery animation */
+@keyframes discoveryPulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--hotspot-glow);
+    background-color: transparent;
+  }
+  30% {
+    box-shadow: 0 0 0 20px rgba(0, 255, 102, 0);
+    background-color: rgba(0, 255, 102, 0.1);
+  }
+  70% {
+    box-shadow: 0 0 0 30px rgba(0, 255, 102, 0);
+    background-color: rgba(0, 255, 102, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 102, 0);
+    background-color: transparent;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .label {
+    font-size: 12px;
+    max-width: 150px;
+  }
+  
+  .primaryLabel {
+    font-size: 12px;
+  }
+  
+  .secondaryLabel {
+    font-size: 10px;
+  }
+}
+
+/* Accessibility */
+.hotspot:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--hotspot-color), 0 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .hotspot,
+  .centerDot,
+  .pulseRing,
+  .scanLine,
+  .label,
+  .codeElement {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .pulseRing {
+    opacity: 0.3 !important;
+    transform: scale(0.8) !important;
+  }
+  
+  .hotspot:hover {
+    transform: none !important;
+  }
+  
+  .codeElements {
+    opacity: 0.5;
+  }
+}

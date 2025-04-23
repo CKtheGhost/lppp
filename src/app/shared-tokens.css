@@ -1,0 +1,231 @@
+/* src/app/shared-tokens.css */
+
+:root {
+  /* Primary colors */
+  --quantum-primary: #00ff66;
+  --quantum-primary-dark: #00cc44;
+  --quantum-primary-darker: #009933;
+  --quantum-primary-light: #66ff99;
+  --quantum-primary-muted: rgba(0, 255, 102, 0.5);
+  
+  /* Accent colors */
+  --quantum-accent-teal: #0dca88;
+  --quantum-accent-blue: #0088ff;
+  --quantum-accent-purple: #8855ff;
+  --quantum-accent-cyan: #00ddff;
+  --quantum-accent-gold: #ffcc00;
+  
+  /* Background colors */
+  --quantum-bg-default: #030508;
+  --quantum-bg-elevated: #050A14;
+  --quantum-bg-card: #0B111E;
+  --quantum-bg-hover: #0D1524;
+  --quantum-bg-active: #101a2d;
+  
+  /* Text colors */
+  --quantum-text-primary: #FFFFFF;
+  --quantum-text-secondary: #8A98B8;
+  --quantum-text-muted: #616E88;
+  --quantum-text-highlight: #00ff66;
+  
+  /* Functional colors */
+  --quantum-error: #ff3b3b;
+  --quantum-warning: #ffbb00;
+  --quantum-success: #00cc66;
+  --quantum-info: #0088ff;
+  
+  /* Effects */
+  --quantum-glow: rgba(0, 255, 102, 0.5);
+  --quantum-glow-strong: rgba(0, 255, 102, 0.8);
+  --quantum-border: rgba(0, 255, 102, 0.15);
+  --quantum-overlay: rgba(3, 5, 8, 0.8);
+  
+  /* Typography */
+  --quantum-font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --quantum-font-mono: var(--font-jetbrains), Menlo, Monaco, Consolas, 'Courier New', monospace;
+  --quantum-font-display: var(--font-audiowide), sans-serif;
+  
+  /* Border radii */
+  --quantum-radius-sm: 6px;
+  --quantum-radius-md: 10px;
+  --quantum-radius-lg: 16px;
+  --quantum-radius-xl: 20px;
+  --quantum-radius-full: 9999px;
+  
+  /* Shadows */
+  --quantum-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --quantum-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --quantum-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+  --quantum-shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.25);
+  --quantum-shadow-inner: inset 0 2px 6px rgba(0, 0, 0, 0.15);
+  --quantum-shadow-glow: 0 0 20px rgba(0, 255, 102, 0.5);
+  --quantum-shadow-glow-2x: 0 0 40px rgba(0, 255, 102, 0.4);
+  --quantum-shadow-highlight: 0 0 2px rgba(0, 255, 102, 0.5);
+  
+  /* Animation durations */
+  --quantum-duration-fastest: 100ms;
+  --quantum-duration-fast: 200ms;
+  --quantum-duration-normal: 300ms;
+  --quantum-duration-slow: 500ms;
+  --quantum-duration-slower: 700ms;
+  --quantum-duration-slowest: 1000ms;
+  
+  /* Easing functions */
+  --quantum-ease-linear: linear;
+  --quantum-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --quantum-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --quantum-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --quantum-ease-quantum: cubic-bezier(0.16, 1, 0.3, 1); /* Primary animation curve */
+  --quantum-ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --quantum-ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* Spacing */
+  --quantum-space-xxs: 4px;
+  --quantum-space-xs: 8px;
+  --quantum-space-sm: 12px;
+  --quantum-space-md: 16px;
+  --quantum-space-lg: 24px;
+  --quantum-space-xl: 32px;
+  --quantum-space-xxl: 48px;
+  --quantum-space-xxxl: 64px;
+  --quantum-space-huge: 96px;
+  
+  /* Layout variables */
+  --quantum-section-spacing-y: clamp(80px, 15vh, 150px);
+  --quantum-container-padding-x: clamp(20px, 5vw, 50px);
+  --quantum-component-spacing-y: clamp(40px, 8vh, 80px);
+  --quantum-content-max-width: 1400px;
+  
+  /* Z-index management */
+  --quantum-z-background: 0;
+  --quantum-z-content: 1;
+  --quantum-z-fixed: 10;
+  --quantum-z-floating: 20;
+  --quantum-z-header: 100;
+  --quantum-z-modal: 1000;
+  --quantum-z-tooltip: 1100;
+  --quantum-z-max: 9999;
+  
+  /* Map to standard variable names for backward compatibility */
+  --color-primary: var(--quantum-primary);
+  --color-primary-dark: var(--quantum-primary-dark);
+  --color-primary-darker: var(--quantum-primary-darker);
+  --color-primary-light: var(--quantum-primary-light);
+  --color-primary-muted: var(--quantum-primary-muted);
+  
+  --color-accent-teal: var(--quantum-accent-teal);
+  --color-accent-blue: var(--quantum-accent-blue);
+  --color-accent-purple: var(--quantum-accent-purple);
+  --color-accent-cyan: var(--quantum-accent-cyan);
+  --color-accent-gold: var(--quantum-accent-gold);
+  
+  --color-bg-default: var(--quantum-bg-default);
+  --color-bg-elevated: var(--quantum-bg-elevated);
+  --color-bg-card: var(--quantum-bg-card);
+  --color-bg-hover: var(--quantum-bg-hover);
+  --color-bg-active: var(--quantum-bg-active);
+  
+  --color-text-primary: var(--quantum-text-primary);
+  --color-text-secondary: var(--quantum-text-secondary);
+  --color-text-muted: var(--quantum-text-muted);
+  --color-text-highlight: var(--quantum-text-highlight);
+  
+  --color-error: var(--quantum-error);
+  --color-warning: var(--quantum-warning);
+  --color-success: var(--quantum-success);
+  --color-info: var(--quantum-info);
+  
+  --color-glow: var(--quantum-glow);
+  --color-glow-strong: var(--quantum-glow-strong);
+  --color-border: var(--quantum-border);
+  --color-overlay: var(--quantum-overlay);
+  
+  --font-sans: var(--quantum-font-sans);
+  --font-mono: var(--quantum-font-mono);
+  --font-display: var(--quantum-font-display);
+  
+  --radius-sm: var(--quantum-radius-sm);
+  --radius-md: var(--quantum-radius-md);
+  --radius-lg: var(--quantum-radius-lg);
+  --radius-xl: var(--quantum-radius-xl);
+  --radius-full: var(--quantum-radius-full);
+  
+  --shadow-sm: var(--quantum-shadow-sm);
+  --shadow-md: var(--quantum-shadow-md);
+  --shadow-lg: var(--quantum-shadow-lg);
+  --shadow-xl: var(--quantum-shadow-xl);
+  --shadow-inner: var(--quantum-shadow-inner);
+  --shadow-glow: var(--quantum-shadow-glow);
+  --shadow-glow-2x: var(--quantum-shadow-glow-2x);
+  --shadow-highlight: var(--quantum-shadow-highlight);
+  
+  --duration-fastest: var(--quantum-duration-fastest);
+  --duration-fast: var(--quantum-duration-fast);
+  --duration-normal: var(--quantum-duration-normal);
+  --duration-slow: var(--quantum-duration-slow);
+  --duration-slower: var(--quantum-duration-slower);
+  --duration-slowest: var(--quantum-duration-slowest);
+  
+  --ease-linear: var(--quantum-ease-linear);
+  --ease-in: var(--quantum-ease-in);
+  --ease-out: var(--quantum-ease-out);
+  --ease-in-out: var(--quantum-ease-in-out);
+  --ease-quantum: var(--quantum-ease-quantum);
+  --ease-bounce: var(--quantum-ease-bounce);
+  --ease-elastic: var(--quantum-ease-elastic);
+  
+  --space-xxs: var(--quantum-space-xxs);
+  --space-xs: var(--quantum-space-xs);
+  --space-sm: var(--quantum-space-sm);
+  --space-md: var(--quantum-space-md);
+  --space-lg: var(--quantum-space-lg);
+  --space-xl: var(--quantum-space-xl);
+  --space-xxl: var(--quantum-space-xxl);
+  --space-xxxl: var(--quantum-space-xxxl);
+  --space-huge: var(--quantum-space-huge);
+  
+  --section-spacing-y: var(--quantum-section-spacing-y);
+  --container-padding-x: var(--quantum-container-padding-x);
+  --component-spacing-y: var(--quantum-component-spacing-y);
+  --content-max-width: var(--quantum-content-max-width);
+  
+  --z-background: var(--quantum-z-background);
+  --z-content: var(--quantum-z-content);
+  --z-fixed: var(--quantum-z-fixed);
+  --z-floating: var(--quantum-z-floating);
+  --z-header: var(--quantum-z-header);
+  --z-modal: var(--quantum-z-modal);
+  --z-tooltip: var(--quantum-z-tooltip);
+  --z-max: var(--quantum-z-max);
+}
+
+/* Animation keyframes */
+@keyframes quantum-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes quantum-glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 5px var(--quantum-glow)); }
+  50% { filter: drop-shadow(0 0 15px var(--quantum-glow-strong)); }
+}
+
+@keyframes quantum-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes quantum-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; width: 60px; }
+  50% { opacity: 1; width: 100px; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
