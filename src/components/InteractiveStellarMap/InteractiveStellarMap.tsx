@@ -36,13 +36,18 @@ export interface Particle {
 export interface InteractiveStellarMapProps {
   children: React.ReactNode;
   density?: number;
-  matrixRainEnabled?: boolean;
+  matrixEffect?: boolean;
   matrixRainColor?: string;
   gridEnabled?: boolean;
   interactiveGlow?: boolean;
   pulseNodes?: boolean;
   theme?: 'green' | 'blue' | 'red' | 'purple' | 'cyan' | 'multi';
   interactive?: boolean;
+  codeFragmentDensity?: number;
+  flowDirection?: 'down' | 'up' | 'random';
+  enableGlow?: boolean;
+  reactToClick?: boolean;
+  connectDistance?: number;
 }
 
 const InteractiveStellarMap: React.FC<InteractiveStellarMapProps> = ({
