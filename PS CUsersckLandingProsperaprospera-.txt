@@ -1,0 +1,87 @@
+PS C:\Users\ck\LandingProspera\prospera-nextjs> npm install
+npm warn ERESOLVE overriding peer dependency
+npm warn ERESOLVE overriding peer dependency
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @react-three/fiber@9.1.2
+npm warn Found: react@18.2.0
+npm warn node_modules/react
+npm warn   peer react@"^18.3.1" from react-reconciler@0.29.2
+npm warn   node_modules/react-konva/node_modules/react-reconciler
+npm warn     react-reconciler@"~0.29.0" from react-konva@18.2.10
+npm warn     node_modules/react-konva
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react@"^19.0.0" from @react-three/fiber@9.1.2
+npm warn node_modules/react-spring/node_modules/@react-three/fiber
+npm warn   peer @react-three/fiber@">=6.0" from @react-spring/three@9.7.5
+npm warn   node_modules/react-spring/node_modules/@react-spring/three
+npm warn
+npm warn Conflicting peer dependency: react@19.1.0
+npm warn node_modules/react
+npm warn   peer react@"^19.0.0" from @react-three/fiber@9.1.2
+npm warn   node_modules/react-spring/node_modules/@react-three/fiber
+npm warn     peer @react-three/fiber@">=6.0" from @react-spring/three@9.7.5
+npm warn     node_modules/react-spring/node_modules/@react-spring/three
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @react-three/fiber@9.1.2
+npm warn Found: react-dom@18.2.0
+npm warn node_modules/react-dom
+npm warn   react-dom@"18.2.0" from the root project
+npm warn   8 more (@testing-library/react, next, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional react-dom@"^19.0.0" from @react-three/fiber@9.1.2
+npm warn node_modules/react-spring/node_modules/@react-three/fiber
+npm warn   peer @react-three/fiber@">=6.0" from @react-spring/three@9.7.5
+npm warn   node_modules/react-spring/node_modules/@react-spring/three
+npm warn
+npm warn Conflicting peer dependency: react-dom@19.1.0
+npm warn node_modules/react-dom
+npm warn   peerOptional react-dom@"^19.0.0" from @react-three/fiber@9.1.2
+npm warn   node_modules/react-spring/node_modules/@react-three/fiber
+npm warn     peer @react-three/fiber@">=6.0" from @react-spring/three@9.7.5
+npm warn     node_modules/react-spring/node_modules/@react-spring/three
+npm warn ERESOLVE overriding peer dependency
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: react-native@0.79.1
+npm warn Found: react@18.2.0
+npm warn node_modules/react
+npm warn   peer react@"^18.3.1" from react-reconciler@0.29.2
+npm warn   node_modules/react-konva/node_modules/react-reconciler
+npm warn     react-reconciler@"~0.29.0" from react-konva@18.2.10
+npm warn     node_modules/react-konva
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react@"^19.0.0" from react-native@0.79.1
+npm warn node_modules/react-spring/node_modules/react-native
+npm warn   peer react-native@">=0.58" from @react-spring/native@9.7.5
+npm warn   node_modules/react-spring/node_modules/@react-spring/native
+npm warn   2 more (@react-three/fiber, @react-native/virtualized-lists)
+npm warn
+npm warn Conflicting peer dependency: react@19.1.0
+npm warn node_modules/react
+npm warn   peer react@"^19.0.0" from react-native@0.79.1
+npm warn   node_modules/react-spring/node_modules/react-native
+npm warn     peer react-native@">=0.58" from @react-spring/native@9.7.5
+npm warn     node_modules/react-spring/node_modules/@react-spring/native
+npm warn     2 more (@react-three/fiber, @react-native/virtualized-lists)
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 985 packages, and audited 986 packages in 28s
+
+198 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS C:\Users\ck\LandingProspera\prospera-nextjs>

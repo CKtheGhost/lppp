@@ -441,7 +441,6 @@ export default function Home() {
           density={100} 
           interactive={true} 
           colorScheme="green"
-          matrixEffect={true}
           dataTransferEffect={true}
           codeFragmentDensity={50}
           pulseNodes={true}
@@ -453,9 +452,7 @@ export default function Home() {
       <div className="discovery-map-container" style={{ position: 'relative', width: '100%', height: '100vh', zIndex: 10 }}>
         <InteractiveStellarMap 
           theme="green"
-          matrixEffect={true}
           interactive={true}
-          codeFragmentDensity={30}
           density={50}
         >
           {discoveryHotspots.map((hotspot) => (
@@ -493,7 +490,7 @@ export default function Home() {
       <section 
         id="hero" 
         className="relative min-h-screen flex items-center justify-center py-20 z-10"
-        ref={el => sectionRefs.current.hero = el}
+        ref={el => { sectionRefs.current.hero = el; }}
       >
         {/* Floating controls */}
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex gap-4">
@@ -526,7 +523,10 @@ export default function Home() {
           theme="green"
           isVisible={discoveredSections.features}
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            ref={el => { sectionRefs.current.features = el; }}
+          >
             <div className="matrix-terminal bg-[var(--matrix-bg-terminal)]/30 border border-[var(--matrix-border)] rounded-lg p-8 shadow-lg transform transition-transform hover:translate-y-[-8px] hover:shadow-[0_15px_35px_rgba(0,0,0,0.2),0_0_15px_var(--matrix-glow-subtle)]">
               <h3 className="text-[var(--matrix-green-primary)] text-2xl font-bold mb-4 matrix-glow">Synaptic Exchange</h3>
               <p className="text-[#8A98B8]">Neural quantum harmonization at 15.7 petahertz, enabling simultaneous multi-dimensional processing across parallel information streams.</p>
@@ -553,7 +553,10 @@ export default function Home() {
           theme="blue"
           isVisible={discoveredSections.howItWorks}
         >
-          <div className="max-w-3xl mx-auto space-y-10">
+          <div 
+            className="max-w-3xl mx-auto space-y-10"
+            ref={el => { sectionRefs.current.howItWorks = el; }}
+          >
             <div className="flex flex-col md:flex-row items-center gap-6 transform transition hover:translate-x-2">
               <div className="w-20 h-20 shrink-0 rounded-full bg-gradient-to-br from-[var(--matrix-green-primary)] to-[var(--matrix-cyan)] flex items-center justify-center text-2xl font-bold shadow-[0_0_20px_var(--matrix-glow)]">1</div>
               <div className="flex-1 matrix-terminal bg-[var(--matrix-bg-terminal)]/30 border border-[var(--matrix-border)] rounded-lg p-6 shadow-lg">
@@ -589,7 +592,10 @@ export default function Home() {
           theme="purple"
           isVisible={discoveredSections.faq}
         >
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div 
+            className="max-w-3xl mx-auto space-y-6"
+            ref={el => { sectionRefs.current.faq = el; }}
+          >
             <div className="matrix-terminal bg-[var(--matrix-bg-terminal)]/30 border border-[var(--matrix-border)] rounded-lg p-6 shadow-lg transform transition-transform hover:scale-[1.01] hover:shadow-[0_15px_35px_rgba(0,0,0,0.2),0_0_15px_var(--matrix-glow-subtle)]">
               <h3 className="text-[var(--matrix-green-primary)] text-xl font-bold mb-3 matrix-glow">Is neural integration safe?</h3>
               <p className="text-[#8A98B8]">Yes. Our quantum harmonization protocols ensure perfect neural synchronization without interference. The 99.9998% synchronization rate represents the highest safety standard in the industry.</p>
